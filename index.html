@@ -125,6 +125,9 @@
   .col .bar.invalid{
     background-image:repeating-linear-gradient(45deg, #B7BCC5, #B7BCC5 4px, #D4D8DE 4px, #D4D8DE 8px);
   }
+  .col .bar.abstain{
+    background-image:repeating-linear-gradient(45deg, #D7C9A8, #D7C9A8 4px, #ECE3CE 4px, #ECE3CE 8px);
+  }
   .col:hover .bar{
     filter:brightness(1.06);
   }
@@ -205,7 +208,8 @@
     </div>
 
     <div class="tabs" id="tabs">
-      <button class="tab active" data-round="2">2. Tur</button>
+      <button class="tab active" data-round="3">3. Tur</button>
+      <button class="tab" data-round="2">2. Tur</button>
       <button class="tab" data-round="1">1. Tur</button>
     </div>
 
@@ -236,6 +240,14 @@
           {name:"Mehmet Ali Akar", party:"CHP", count:5, color:"var(--chp)"},
           {name:"Mustafa Öztürk", party:"Bağımsız", count:1, color:"var(--bagimsiz)"},
           {name:"Geçersiz Oy", party:"", count:3, color:"var(--gecersiz)", invalid:true}
+        ]
+      },
+      3: {
+        foot: "Menderes Belediyesi Başkanvekili seçimi 3. tur oylama sonucu",
+        items: [
+          {name:"Asuman Şen", party:"Cumhur İttifakı", count:13, color:"var(--cumhur)"},
+          {name:"Barış Gürsoy", party:"Yeni Parti", count:10, color:"var(--yeniparti)"},
+          {name:"Oy Kullanmayan", party:"", count:5, color:"#C9A66B", abstain:true}
         ]
       }
     };
@@ -276,9 +288,9 @@
         count.textContent = item.count;
 
         var bar = document.createElement('div');
-        bar.className = 'bar' + (item.invalid ? ' invalid' : '');
+        bar.className = 'bar' + (item.invalid ? ' invalid' : '') + (item.abstain ? ' abstain' : '');
         bar.style.height = h + 'px';
-        if(!item.invalid){ bar.style.background = item.color; }
+        if(!item.invalid && !item.abstain){ bar.style.background = item.color; }
 
         col.appendChild(count);
         col.appendChild(bar);
@@ -319,7 +331,7 @@
       });
     });
 
-    renderRound(2);
+    renderRound(3);
   </script>
 </body>
 </html>
