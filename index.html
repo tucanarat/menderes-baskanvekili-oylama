@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menderes Belediyesi Başkanvekili Seçimi</title>
+<style>
+  :root{
+    --cumhur:#EFA22B;
+    --yeniparti:#0FA398;
+    --chp:#E0233A;
+    --bagimsiz:#8A93A3;
+    --ink:#171A21;
+    --muted:#8A8F9A;
+    --line:#ECEDF1;
+    --card:#FCFCFD;
+    --card-soft:#F5F6F8;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    padding:0;
+    background:transparent;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  .card{
+    width:100%;
+    max-width:600px;
+    margin:0 auto;
+    background:linear-gradient(180deg,#FFFFFF 0%,var(--card) 100%);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 1px 2px rgba(20,22,30,.03), 0 6px 20px rgba(20,22,30,.05);
+    padding:26px 26px 20px;
+  }
+  .head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:2px;
+  }
+  .head .accent{
+    width:5px;
+    height:20px;
+    border-radius:3px;
+    background:linear-gradient(180deg,var(--cumhur),var(--chp));
+    flex:0 0 auto;
+  }
+  .title{
+    font-size:16.5px;
+    font-weight:700;
+    letter-spacing:.1px;
+    margin:0;
+    line-height:1.25;
+  }
+
+  .tabs{
+    display:flex;
+    gap:6px;
+    margin:16px 0 0 15px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab{
+    appearance:none;
+    border:none;
+    background:none;
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--muted);
+    padding:8px 4px 9px;
+    cursor:pointer;
+    position:relative;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .tab.active{
+    color:var(--ink);
+  }
+  .tab.active::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height:2px;
+    border-radius:2px;
+    background:linear-gradient(90deg,var(--cumhur),var(--chp));
+  }
+
+  .chart{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:14px;
+    height:126px;
+    margin:22px 6px 0;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .col{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-end;
+    height:100%;
+    flex:1 1 0;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .col .count{
+    font-size:16px;
+    font-weight:800;
+    line-height:1;
+    margin-bottom:8px;
+    color:var(--ink);
+    transition:transform .15s ease;
+  }
+  .col .bar{
+    width:38px;
+    max-width:70%;
+    border-radius:8px 8px 3px 3px;
+    transition:filter .15s ease, transform .15s ease;
+  }
+  .col:hover .bar{
+    filter:brightness(1.06);
+  }
+  .col.active .bar{
+    transform:scaleX(1.08);
+  }
+  .col.active .count{
+    transform:translateY(-2px);
+  }
+  .labels{
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+    margin:9px 6px 0;
+  }
+  .labels .lbl{
+    flex:1 1 0;
+    text-align:center;
+    font-size:11px;
+    font-weight:600;
+    color:var(--muted);
+    letter-spacing:.1px;
+    line-height:1.3;
+  }
+  .labels .lbl .party{
+    display:block;
+    font-size:9.5px;
+    font-weight:500;
+    color:var(--muted);
+    opacity:.8;
+    margin-top:1px;
+  }
+  .info-box{
+    margin:16px 0 0;
+    padding:11px 14px;
+    background:var(--card-soft);
+    border-radius:11px;
+    font-size:12.5px;
+    text-align:center;
+    color:var(--ink);
+    border-left:3px solid transparent;
+    transition:border-color .15s ease;
+  }
+  .info-box.empty{
+    color:var(--muted);
+  }
+  .info-box .cand-name{
+    font-weight:800;
+  }
+  .info-box .cand-party{
+    color:var(--muted);
+  }
+  .foot{
+    text-align:center;
+    font-size:10.5px;
+    color:var(--muted);
+    margin:16px 0 0;
+    line-height:1.4;
+  }
+  @media (max-width:400px){
+    .card{padding:20px 16px 16px;}
+    .chart{gap:8px;height:110px;margin-top:18px;}
+    .col .bar{width:28px;}
+    .col .count{font-size:14px;}
+    .labels .lbl{font-size:10px;}
+    .labels .lbl .party{font-size:8.5px;}
+    .labels{gap:8px;}
+    .tabs{margin-left:0;}
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <span class="accent"></span>
+      <p class="title">Menderes Belediyesi Başkanvekili Seçimi</p>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-round="1">1. Tur</button>
+    </div>
+
+    <div class="chart" id="chart">
+      <div class="col" data-name="Asuman Şen" data-party="Cumhur İttifakı" data-count="12" data-color="var(--cumhur)">
+        <span class="count">12</span>
+        <div class="bar" style="height:96px;background:var(--cumhur)"></div>
+      </div>
+      <div class="col" data-name="Barış Gürsoy" data-party="Yeni Parti" data-count="10" data-color="var(--yeniparti)">
+        <span class="count">10</span>
+        <div class="bar" style="height:80px;background:var(--yeniparti)"></div>
+      </div>
+      <div class="col" data-name="Mehmet Ali Akar" data-party="CHP" data-count="5" data-color="var(--chp)">
+        <span class="count">5</span>
+        <div class="bar" style="height:40px;background:var(--chp)"></div>
+      </div>
+      <div class="col" data-name="Mustafa Öztürk" data-party="Bağımsız" data-count="1" data-color="var(--bagimsiz)">
+        <span class="count">1</span>
+        <div class="bar" style="height:8px;background:var(--bagimsiz)"></div>
+      </div>
+    </div>
+    <div class="labels">
+      <span class="lbl">Asuman Şen<span class="party">Cumhur İttifakı</span></span>
+      <span class="lbl">Barış Gürsoy<span class="party">Yeni Parti</span></span>
+      <span class="lbl">Mehmet Ali Akar<span class="party">CHP</span></span>
+      <span class="lbl">Mustafa Öztürk<span class="party">Bağımsız</span></span>
+    </div>
+
+    <div class="info-box empty" id="infoBox">Bilgi görmek için bir sütuna dokunun</div>
+
+    <p class="foot" id="foot">Menderes Belediyesi Başkanvekili seçimi 1. tur oylama sonucu</p>
+  </div>
+
+  <script>
+    (function(){
+      var cols = document.querySelectorAll('#chart .col');
+      var infoBox = document.getElementById('infoBox');
+      cols.forEach(function(col){
+        col.addEventListener('click', function(){
+          cols.forEach(function(c){ c.classList.remove('active'); });
+          col.classList.add('active');
+          var name = col.getAttribute('data-name');
+          var party = col.getAttribute('data-party');
+          var count = col.getAttribute('data-count');
+          var color = col.getAttribute('data-color');
+          infoBox.classList.remove('empty');
+          infoBox.style.borderLeftColor = color;
+          infoBox.innerHTML =
+            '<span class="cand-name" style="color:' + color + '">' + name + '</span>' +
+            ' <span class="cand-party">(' + party + ')</span>' +
+            ' — ' + count + ' oy';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
