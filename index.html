@@ -10,6 +10,7 @@
     --yeniparti:#0FA398;
     --chp:#E0233A;
     --bagimsiz:#8A93A3;
+    --gecersiz:#C6CBD3;
     --ink:#171A21;
     --muted:#8A8F9A;
     --line:#ECEDF1;
@@ -70,7 +71,7 @@
     font-size:12.5px;
     font-weight:700;
     color:var(--muted);
-    padding:8px 4px 9px;
+    padding:8px 10px 9px;
     cursor:pointer;
     position:relative;
     -webkit-tap-highlight-color:transparent;
@@ -91,7 +92,7 @@
     display:flex;
     align-items:flex-end;
     justify-content:space-between;
-    gap:14px;
+    gap:12px;
     height:126px;
     margin:22px 6px 0;
     padding-bottom:10px;
@@ -116,10 +117,13 @@
     transition:transform .15s ease;
   }
   .col .bar{
-    width:38px;
+    width:34px;
     max-width:70%;
     border-radius:8px 8px 3px 3px;
     transition:filter .15s ease, transform .15s ease;
+  }
+  .col .bar.invalid{
+    background-image:repeating-linear-gradient(45deg, #B7BCC5, #B7BCC5 4px, #D4D8DE 4px, #D4D8DE 8px);
   }
   .col:hover .bar{
     filter:brightness(1.06);
@@ -133,7 +137,7 @@
   .labels{
     display:flex;
     justify-content:space-between;
-    gap:14px;
+    gap:12px;
     margin:9px 6px 0;
   }
   .labels .lbl{
@@ -182,13 +186,14 @@
   }
   @media (max-width:400px){
     .card{padding:20px 16px 16px;}
-    .chart{gap:8px;height:110px;margin-top:18px;}
-    .col .bar{width:28px;}
+    .chart{gap:6px;height:110px;margin-top:18px;}
+    .col .bar{width:24px;}
     .col .count{font-size:14px;}
-    .labels .lbl{font-size:10px;}
-    .labels .lbl .party{font-size:8.5px;}
-    .labels{gap:8px;}
+    .labels .lbl{font-size:9.5px;}
+    .labels .lbl .party{font-size:8px;}
+    .labels{gap:6px;}
     .tabs{margin-left:0;}
+    .tab{padding:8px 7px 9px;}
   }
 </style>
 </head>
@@ -196,64 +201,125 @@
   <div class="card">
     <div class="head">
       <span class="accent"></span>
-      <p class="title">Menderes Belediyesi Başkanvekili Seçimi</p>
+      <p class="title">Menderes Belediyesi Başkanvekili Seçimi Oylama</p>
     </div>
 
     <div class="tabs" id="tabs">
-      <button class="tab active" data-round="1">1. Tur</button>
+      <button class="tab active" data-round="2">2. Tur</button>
+      <button class="tab" data-round="1">1. Tur</button>
     </div>
 
-    <div class="chart" id="chart">
-      <div class="col" data-name="Asuman Şen" data-party="Cumhur İttifakı" data-count="12" data-color="var(--cumhur)">
-        <span class="count">12</span>
-        <div class="bar" style="height:96px;background:var(--cumhur)"></div>
-      </div>
-      <div class="col" data-name="Barış Gürsoy" data-party="Yeni Parti" data-count="10" data-color="var(--yeniparti)">
-        <span class="count">10</span>
-        <div class="bar" style="height:80px;background:var(--yeniparti)"></div>
-      </div>
-      <div class="col" data-name="Mehmet Ali Akar" data-party="CHP" data-count="5" data-color="var(--chp)">
-        <span class="count">5</span>
-        <div class="bar" style="height:40px;background:var(--chp)"></div>
-      </div>
-      <div class="col" data-name="Mustafa Öztürk" data-party="Bağımsız" data-count="1" data-color="var(--bagimsiz)">
-        <span class="count">1</span>
-        <div class="bar" style="height:8px;background:var(--bagimsiz)"></div>
-      </div>
-    </div>
-    <div class="labels">
-      <span class="lbl">Asuman Şen<span class="party">Cumhur İttifakı</span></span>
-      <span class="lbl">Barış Gürsoy<span class="party">Yeni Parti</span></span>
-      <span class="lbl">Mehmet Ali Akar<span class="party">CHP</span></span>
-      <span class="lbl">Mustafa Öztürk<span class="party">Bağımsız</span></span>
-    </div>
+    <div class="chart" id="chart"></div>
+    <div class="labels" id="labels"></div>
 
     <div class="info-box empty" id="infoBox">Bilgi görmek için bir sütuna dokunun</div>
 
-    <p class="foot" id="foot">Menderes Belediyesi Başkanvekili seçimi 1. tur oylama sonucu</p>
+    <p class="foot" id="foot"></p>
   </div>
 
   <script>
-    (function(){
-      var cols = document.querySelectorAll('#chart .col');
-      var infoBox = document.getElementById('infoBox');
-      cols.forEach(function(col){
+    var ROUNDS = {
+      1: {
+        foot: "Menderes Belediyesi Başkanvekili seçimi 1. tur oylama sonucu",
+        items: [
+          {name:"Asuman Şen", party:"Cumhur İttifakı", count:12, color:"var(--cumhur)"},
+          {name:"Barış Gürsoy", party:"Yeni Parti", count:10, color:"var(--yeniparti)"},
+          {name:"Mehmet Ali Akar", party:"CHP", count:5, color:"var(--chp)"},
+          {name:"Mustafa Öztürk", party:"Bağımsız", count:1, color:"var(--bagimsiz)"}
+        ]
+      },
+      2: {
+        foot: "Menderes Belediyesi Başkanvekili seçimi 2. tur oylama sonucu",
+        items: [
+          {name:"Asuman Şen", party:"Cumhur İttifakı", count:10, color:"var(--cumhur)"},
+          {name:"Barış Gürsoy", party:"Yeni Parti", count:9, color:"var(--yeniparti)"},
+          {name:"Mehmet Ali Akar", party:"CHP", count:5, color:"var(--chp)"},
+          {name:"Mustafa Öztürk", party:"Bağımsız", count:1, color:"var(--bagimsiz)"},
+          {name:"Geçersiz Oy", party:"", count:3, color:"var(--gecersiz)", invalid:true}
+        ]
+      }
+    };
+
+    var MAX_BAR_HEIGHT = 96;
+
+    var chartEl = document.getElementById('chart');
+    var labelsEl = document.getElementById('labels');
+    var infoBox = document.getElementById('infoBox');
+    var footEl = document.getElementById('foot');
+    var tabs = document.querySelectorAll('.tab');
+
+    function resetInfoBox(){
+      infoBox.classList.add('empty');
+      infoBox.style.borderLeftColor = 'transparent';
+      infoBox.innerHTML = 'Bilgi görmek için bir sütuna dokunun';
+    }
+
+    function renderRound(roundKey){
+      var round = ROUNDS[roundKey];
+      var maxCount = Math.max.apply(null, round.items.map(function(i){ return i.count; }));
+
+      chartEl.innerHTML = '';
+      labelsEl.innerHTML = '';
+
+      round.items.forEach(function(item){
+        var h = Math.max(6, Math.round((item.count / maxCount) * MAX_BAR_HEIGHT));
+
+        var col = document.createElement('div');
+        col.className = 'col';
+        col.setAttribute('data-name', item.name);
+        col.setAttribute('data-party', item.party);
+        col.setAttribute('data-count', item.count);
+        col.setAttribute('data-color', item.color);
+
+        var count = document.createElement('span');
+        count.className = 'count';
+        count.textContent = item.count;
+
+        var bar = document.createElement('div');
+        bar.className = 'bar' + (item.invalid ? ' invalid' : '');
+        bar.style.height = h + 'px';
+        if(!item.invalid){ bar.style.background = item.color; }
+
+        col.appendChild(count);
+        col.appendChild(bar);
+        chartEl.appendChild(col);
+
+        var lbl = document.createElement('span');
+        lbl.className = 'lbl';
+        lbl.textContent = item.name;
+        if(item.party){
+          var p = document.createElement('span');
+          p.className = 'party';
+          p.textContent = item.party;
+          lbl.appendChild(p);
+        }
+        labelsEl.appendChild(lbl);
+
         col.addEventListener('click', function(){
-          cols.forEach(function(c){ c.classList.remove('active'); });
+          document.querySelectorAll('#chart .col').forEach(function(c){ c.classList.remove('active'); });
           col.classList.add('active');
-          var name = col.getAttribute('data-name');
-          var party = col.getAttribute('data-party');
-          var count = col.getAttribute('data-count');
-          var color = col.getAttribute('data-color');
           infoBox.classList.remove('empty');
-          infoBox.style.borderLeftColor = color;
+          infoBox.style.borderLeftColor = item.color;
           infoBox.innerHTML =
-            '<span class="cand-name" style="color:' + color + '">' + name + '</span>' +
-            ' <span class="cand-party">(' + party + ')</span>' +
-            ' — ' + count + ' oy';
+            '<span class="cand-name" style="color:' + item.color + '">' + item.name + '</span>' +
+            (item.party ? ' <span class="cand-party">(' + item.party + ')</span>' : '') +
+            ' — ' + item.count + ' oy';
         });
       });
-    })();
+
+      footEl.textContent = round.foot;
+      resetInfoBox();
+    }
+
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        renderRound(tab.getAttribute('data-round'));
+      });
+    });
+
+    renderRound(2);
   </script>
 </body>
 </html>
